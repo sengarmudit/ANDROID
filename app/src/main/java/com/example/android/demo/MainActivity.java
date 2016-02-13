@@ -10,10 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -71,14 +76,18 @@ public class MainActivity extends AppCompatActivity {
 //                urlConnection.setUseCaches(false);
 //                urlConnection.connect();
 
+                JSONObject obj = new JSONObject();
+
+                obj.put("userName", "mudit");
+                obj.put("password", "neeraj");
 
                 URL url = new URL(baseUrl);
 
                 String authString = "mudit:neeraj";
 
-
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("PUT");
+
 
                 String encodeA = new String(Base64.encode(authString.getBytes(), Base64.DEFAULT));
 
@@ -86,10 +95,16 @@ public class MainActivity extends AppCompatActivity {
 //                urlConnection.addRequestProperty("password","neeraj");
 
 
-                urlConnection.setRequestProperty("Authorization", "basic " + encodeA);
+//                urlConnection.setRequestProperty("Authorization", "basic " + encodeA);
 
 
                 urlConnection.connect();
+
+                OutputStream os = urlConnection.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+                osw.write(obj.toString());
+                osw.flush();
+                osw.close();
 
 //                Log.d("qwer", urlConnection.getResponseCode() + "");
 
@@ -99,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     return null;
                 }
 
-                reader = new BufferedReader(new InputStreamReader(inputStream));
+                reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line + "\n");
@@ -111,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
                 // If the code didn't successfully get the weather data, there's no point in attemping
                 // to parse it.
                 return e.getMessage();
+            } catch (JSONException e) {
+                e.printStackTrace();
             } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
