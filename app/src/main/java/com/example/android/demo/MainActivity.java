@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -61,20 +60,38 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 String baseUrl = "http://52.70.236.212:8080/service/user/login/matrimony";
+
+
+//                Authenticator.setDefault(new Authenticator() {
+//                    protected PasswordAuthentication getPasswordAuthentication() {
+//                        return new PasswordAuthentication("mudit", "neeraj".toCharArray());
+//                    }
+//                });
+//                urlConnection = (HttpURLConnection) new URL(baseUrl).openConnection();
+//                urlConnection.setUseCaches(false);
+//                urlConnection.connect();
+
+
                 URL url = new URL(baseUrl);
 
-                String authString = "mudit" + ":" + "neeraj";
+                String authString = "mudit:neeraj";
 
 
                 urlConnection = (HttpURLConnection) url.openConnection();
-
-                String encodeA = new String(Base64.encodeToString(authString.getBytes(), Base64.DEFAULT));
-
                 urlConnection.setRequestMethod("PUT");
 
-                urlConnection.setRequestProperty("Authorization", "Basic " + encodeA);
+                String encodeA = new String(Base64.encode(authString.getBytes(), Base64.DEFAULT));
+
+//                urlConnection.addRequestProperty("userName","mudit");
+//                urlConnection.addRequestProperty("password","neeraj");
+
+
+                urlConnection.setRequestProperty("Authorization", "basic " + encodeA);
+
 
                 urlConnection.connect();
+
+//                Log.d("qwer", urlConnection.getResponseCode() + "");
 
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
