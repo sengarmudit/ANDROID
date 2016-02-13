@@ -91,22 +91,4 @@ public class MainActivity extends AppCompatActivity {
         httpCon.setRequestMethod("PUT");
         httpCon.connect();
     }
-
-    private String run(String url) {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("name", userName.getText().toString())
-                .addHeader("password", password.getText().toString())
-                .build();
-
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return e.toString();
-        }
-    }
 }
