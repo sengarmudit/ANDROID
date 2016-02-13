@@ -10,9 +10,11 @@
 
 
     <TextView
+        android:paddingTop="50dp"
         android:id="@+id/data"
-        android:text="Welcome Matrimony User" android:layout_width="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Welcome Matrimony User"
         android:textSize="25dp"/>
 
 </RelativeLayout>

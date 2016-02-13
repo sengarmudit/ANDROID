@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -66,38 +65,18 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String baseUrl = "http://52.70.236.212:8080/service/user/login/matrimony";
 
-
-//                Authenticator.setDefault(new Authenticator() {
-//                    protected PasswordAuthentication getPasswordAuthentication() {
-//                        return new PasswordAuthentication("mudit", "neeraj".toCharArray());
-//                    }
-//                });
-//                urlConnection = (HttpURLConnection) new URL(baseUrl).openConnection();
-//                urlConnection.setUseCaches(false);
-//                urlConnection.connect();
-
                 JSONObject obj = new JSONObject();
 
-                obj.put("userName", "mudit");
-                obj.put("password", "neeraj");
+                obj.put("userName", userName);
+                obj.put("password", password);
 
                 URL url = new URL(baseUrl);
-
-                String authString = "mudit:neeraj";
 
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("PUT");
 
-
-                String encodeA = new String(Base64.encode(authString.getBytes(), Base64.DEFAULT));
-
-//                urlConnection.addRequestProperty("userName","mudit");
-//                urlConnection.addRequestProperty("password","neeraj");
-
-
-//                urlConnection.setRequestProperty("Authorization", "basic " + encodeA);
-
-
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
                 urlConnection.connect();
 
                 OutputStream os = urlConnection.getOutputStream();
@@ -105,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 osw.write(obj.toString());
                 osw.flush();
                 osw.close();
-
-//                Log.d("qwer", urlConnection.getResponseCode() + "");
 
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
@@ -123,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 forecastJsonStr = buffer.toString();
             } catch (IOException e) {
                 Log.e("PlaceholderFragment", "Error ", e);
-                // If the code didn't successfully get the weather data, there's no point in attemping
-                // to parse it.
                 return e.getMessage();
             } catch (JSONException e) {
                 e.printStackTrace();
