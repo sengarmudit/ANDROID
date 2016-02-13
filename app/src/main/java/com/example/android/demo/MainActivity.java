@@ -5,26 +5,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class MainActivity extends AppCompatActivity {
     EditText password, userName;
-    Button login, resister;
+    Button login;
     public static final String INTENT_KEY = "INTENT_KEY";
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,61 +31,90 @@ public class MainActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.editText2);
         userName = (EditText) findViewById(R.id.editText1);
         login = (Button) findViewById(R.id.button1);
+        userName.setText("mudit");
+        password.setText("neeraj");
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = userName.getText().toString();
-                final String passwd = password.getText().toString();
-                if (username != null && passwd != null)
-                    new AsyncTask<Void, Void, String>() {
-                        @Override
-                        protected String doInBackground(Void... params) {
-                            try {
-                                URL url = new URL("http://52.70.236.212:8080/service/user/login/matrimony");
-                                HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-                                httpCon.setDoInput(true);
-                                httpCon.setDoOutput(true);
-                                httpCon.setRequestMethod("PUT");
-                                httpCon.setRequestProperty("Content-Type", "application/json");
-                                String aut = username + ":" + passwd;
-                                byte[] b = aut.getBytes();
-
-                                String encodeA = new String(Base64.encodeToString(b, Base64.DEFAULT));
-                                httpCon.setRequestProperty("Authorization", "Basic " + encodeA);
-                                httpCon.connect();
-                                OutputStreamWriter out = new OutputStreamWriter(
-                                        httpCon.getOutputStream());
-                                out.write("Resource content");
-                                out.close();
-                                return httpCon.getInputStream().toString();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                return e.toString();
-                            }
-                        }
-
-                        @Override
-                        protected void onPostExecute(String aVoid) {
-                            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-                            intent.putExtra(INTENT_KEY,aVoid);
-                            startActivity(intent);
-                        }
-                    };
-                else {
-                    Toast.makeText(MainActivity.this, "enter all field", Toast.LENGTH_LONG).show();
-                }
-
+                Loadurl aVoid = new Loadurl();
+                aVoid.execute(userName.getText().toString(), password.getText().toString());
+                aVoid.execute();
             }
         });
     }
 
-    private void loadurl() throws IOException {
-        URL url = new URL("http://52.70.236.212:8080/web.matrimony/#/login");
-        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-        httpCon.setDoOutput(true);
-        httpCon.setRequestProperty(
-                "userName", "application/x-www-form-urlencoded");
-        httpCon.setRequestMethod("PUT");
-        httpCon.connect();
+    class Loadurl extends AsyncTask<Void, Void, String> {
+        String userName;
+        String password;
+
+        public void execute(String userName, String password) {
+            this.userName = userName;
+            this.password = password;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+
+            String forecastJsonStr = null;
+
+            try {
+                String baseUrl = "http://52.70.236.212:8080/service/user/login/matrimony";
+                URL url = new URL(baseUrl);
+
+                String authString = "mudit" + ":" + "neeraj";
+
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                String encodeA = new String(Base64.encodeToString(authString.getBytes(), Base64.DEFAULT));
+
+                urlConnection.setRequestMethod("PUT");
+
+                urlConnection.setRequestProperty("Authorization", "Basic " + encodeA);
+
+                urlConnection.connect();
+
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    return null;
+                }
+
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+
+                forecastJsonStr = buffer.toString();
+            } catch (IOException e) {
+                Log.e("PlaceholderFragment", "Error ", e);
+                // If the code didn't successfully get the weather data, there's no point in attemping
+                // to parse it.
+                return e.getMessage();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("PlaceholderFragment", "Error closing stream", e);
+                    }
+                }
+            }
+            return forecastJsonStr;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            intent.putExtra(INTENT_KEY, s);
+            startActivity(intent);
+        }
     }
 }
