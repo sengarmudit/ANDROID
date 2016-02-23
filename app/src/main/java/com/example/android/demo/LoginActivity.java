@@ -1,6 +1,11 @@
 package com.example.android.demo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,27 +25,50 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText password, userName;
-    Button login;
-    public static final String INTENT_KEY = "INTENT_KEY";
+    Button login, register;
+    public static final String INTENT_KEY1 = "INTENT_KEY1";
+    public static String authenticationToken, userId, status;
+    TextView visible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         password = (EditText) findViewById(R.id.editText2);
         userName = (EditText) findViewById(R.id.editText1);
         login = (Button) findViewById(R.id.button1);
-        userName.setText("mudit");
-        password.setText("neeraj");
+        visible = (TextView) findViewById(R.id.visible);
+        register = (Button) findViewById(R.id.register);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Loadurl aVoid = new Loadurl();
-                aVoid.execute(userName.getText().toString(), password.getText().toString());
-                aVoid.execute();
+                if (checkInternetConenction()) {
+                    if (userName.getText().toString().isEmpty()) {
+                        userName.setError(getString(R.string.userName_error));
+                    }
+                    if (password.getText().toString().isEmpty()) {
+                        password.setError(getString(R.string.userName_error));
+                    } else {
+                        Loadurl aVoid = new Loadurl();
+                        aVoid.execute(userName.getText().toString(), password.getText().toString(), visible);
+                        aVoid.execute();
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.internet_error), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkInternetConenction()) {
+                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.internet_error), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -49,10 +76,13 @@ public class MainActivity extends AppCompatActivity {
     class Loadurl extends AsyncTask<Void, Void, String> {
         String userName;
         String password;
+        String forecastJsonStr = null;
+        TextView view;
 
-        public void execute(String userName, String password) {
+        public void execute(String userName, String password, TextView view) {
             this.userName = userName;
             this.password = password;
+            this.view = view;
         }
 
         @Override
@@ -60,10 +90,9 @@ public class MainActivity extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            String forecastJsonStr = null;
-
+            int code = 0;
             try {
-                String baseUrl = "http://52.70.236.212:8080/service/user/login/matrimony";
+                String baseUrl = getString(R.string.login_base_url);
 
                 JSONObject obj = new JSONObject();
 
@@ -86,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 osw.close();
 
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 if (inputStream == null) {
                     return null;
                 }
@@ -97,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append(line + "\n");
                 }
 
-                forecastJsonStr = buffer.toString();
+                this.forecastJsonStr = buffer.toString();
+
             } catch (IOException e) {
                 Log.e("PlaceholderFragment", "Error ", e);
                 return e.getMessage();
@@ -121,9 +151,30 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-            intent.putExtra(INTENT_KEY, s);
-            startActivity(intent);
+            try {
+                JSONObject jsonObject = new JSONObject(forecastJsonStr);
+                authenticationToken = jsonObject.getString("authenticationToken");
+                userId = jsonObject.getString("userId");
+                status = jsonObject.getString("status");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (s.contains("errorCode")) {
+                view.setVisibility(View.VISIBLE);
+            } else {
+                Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                intent.putExtra(INTENT_KEY1, userName);
+                startActivity(intent);
+            }
         }
+    }
+
+    public boolean checkInternetConenction() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        } else return false;
     }
 }

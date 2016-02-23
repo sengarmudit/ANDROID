@@ -1,4 +1,23 @@
 <resources>
-    <string name="app_name">Demo</string>
+    <string name="app_name">Matrimony</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_user_info">UserInfo</string>
+    <string name="userName_error">Username is required</string>
+    <string name="password_Error">Password is required</string>
+    <string name="internet_error">Not Connected</string>
+    <string name="login_base_url">http://52.70.236.212:8080/service/user/login/matrimony</string>
+    <string name="mobileNumberEror">Invalid mobile number</string>
+    <string name="emailError">Invalid email</string>
+    <string name="registerBaseUrl">http://52.70.236.212:8080/service/user/register/</string>
+    <string name="userInfoURL">http://52.70.236.212:8080/service/user/basic/info/update</string>
+    <string name="getBasicInfoURL">http://52.70.236.212:8080/service/user/basic/info/get/</string>
+    <string name="title_activity_show_user_info">ShowUserInfo</string>
+    <string name="title_activity_profile_photo">ProfilePhoto</string>
+    <string name="uploadImageURL">http://52.70.236.212:8080/service/user/photo/add</string>
+    <string name="title_activity_family_information">FamilyInformation</string>
+    <string name="addFamilyInfo">http://52.70.236.212:8080/service/family/info/upsert</string>
+    <string name="familyMemberDetails">Family member details:</string>
+    <string name="initiateEmailVerify">http://52.70.236.212:8080/service/user/initiate/verify/email/</string>
+    <string name="checkEmailVerified">http://52.70.236.212:8080/service/user//is/email/verified</string>
 </resources>

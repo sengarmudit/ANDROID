@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,11 +9,58 @@
 
 
     <TextView
-        android:paddingTop="50dp"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/data"
+        android:text="Perform Actions"
+        android:textSize="35dp" />
+
+    <TextView
         android:id="@+id/data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Matrimony User"
-        android:textSize="25dp"/>
+        android:layout_centerVertical="true"
+        android:text="Welcome"
+        android:textSize="25dp" />
 
+    <!--
+        <TextView
+            android:id="@+id/json"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/data"
+            android:text="{JSON}"/>
+    -->
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/familyInfo"
+        android:text="Logout"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/data"
+        android:text="Basic Information"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/profilePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile"
+        android:text="Profile Photo"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/familyInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profilePhoto"
+        android:text="Family Information"
+        android:textSize="20dp" />
 </RelativeLayout>

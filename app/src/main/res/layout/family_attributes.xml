@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/hiddenLayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Family member:"
+        android:textSize="20dp"/>
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Name"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Age"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/relation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Relation"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/professionalSummary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Profession Summary"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/maritalStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Marital Status"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/livingWithFamily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Living With Family"
+        android:textSize="20dp" />
+
+
+</LinearLayout>
