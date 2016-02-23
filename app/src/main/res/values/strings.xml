@@ -20,4 +20,5 @@
     <string name="familyMemberDetails">Family member details:</string>
     <string name="initiateEmailVerify">http://52.70.236.212:8080/service/user/initiate/verify/email/</string>
     <string name="checkEmailVerified">http://52.70.236.212:8080/service/user//is/email/verified</string>
+    <string name="title_activity_payment">PaymentActivity</string>
 </resources>

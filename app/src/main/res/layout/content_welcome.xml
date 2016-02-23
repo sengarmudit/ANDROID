@@ -12,7 +12,8 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/data"
+        android:layout_below="@+id/toolbar"
+        android:paddingTop="55dp"
         android:text="Perform Actions"
         android:textSize="35dp" />
 
@@ -20,7 +21,7 @@
         android:id="@+id/data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/title"
         android:text="Welcome"
         android:textSize="25dp" />
 
@@ -36,7 +37,7 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/familyInfo"
+        android:layout_below="@+id/payment"
         android:text="Logout"
         android:textSize="20dp" />
 
@@ -62,5 +63,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profilePhoto"
         android:text="Family Information"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/familyInfo"
+        android:text="Payment"
         android:textSize="20dp" />
 </RelativeLayout>

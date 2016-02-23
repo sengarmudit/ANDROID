@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class WelcomeActivity extends AppCompatActivity {
-    Button userProfile, logout, profilePhoto, familyInfo;
+    Button userProfile, logout, profilePhoto, familyInfo,paymentInfo;
     public static String authToken, userID;
     TextView dataview;
     public static final String INTENT_KEY = "INTENT_KEY";
@@ -72,6 +72,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(WelcomeActivity.this, FamilyInformation.class);
                 intent.putExtra(INTENT_KEY, authToken);
                 startActivity(intent);
+            }
+        });
+
+        paymentInfo = (Button) findViewById(R.id.payment);
+        paymentInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
