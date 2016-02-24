@@ -13,33 +13,60 @@
     tools:showIn="@layout/activity_payment">
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:hint="Amount"
-        android:textSize="20dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Currency Type: INR"
-        android:id="@+id/currencyType"
-        android:layout_below="@+id/amount"
-        android:textSize="20dp"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Plan"
-        android:layout_below="@+id/currencyType"
-        android:textSize="20dp"
-        android:id="@+id/plan"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pay"
-        android:id="@+id/pay"
-        android:layout_below="@+id/plan"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
 
+    <TextView
+        android:id="@+id/currencyType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amount"
+        android:text="Currency Type: INR"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/currencyType"
+        android:hint="Plan"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/plan"
+        android:text="Pay"
+        android:textSize="20dp" />
+    <EditText
+        android:id="@+id/rsaUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textUri"
+        android:visibility="invisible"
+        android:text="http://122.182.6.216/merchant/GetRSA.jsp"
+        android:layout_below="@+id/pay"/>
+    <EditText
+        android:id="@+id/cancelUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textUri"
+        android:visibility="invisible"
+        android:layout_below="@id/rsaUrl"
+        android:text="http://52.70.236.212:8080/web.matrimony/#/payment/cancel" />
+    <EditText
+        android:id="@+id/redirectUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textUri"
+        android:visibility="invisible"
+        android:layout_below="@+id/cancelUrl"
+        android:text="http://52.70.236.212:8080/service/payment/save/response/details"/>
 </RelativeLayout>

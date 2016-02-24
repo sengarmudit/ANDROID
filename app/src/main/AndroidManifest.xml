@@ -73,6 +73,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.demo.WelcomeActivity" />
         </activity>
+        <activity
+            android:name=".InitialScreenActivity"
+            android:label="@string/title_activity_initial_screen"
+            android:parentActivityName=".WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.demo.WelcomeActivity" />
+        </activity>
+        <activity
+            android:name=".WebViewActivity"
+            android:label="@string/title_activity_web_view"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".StatusActivity"
+            android:label="@string/title_activity_status"
+            android:parentActivityName=".WebViewActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.demo.WebViewActivity" />
+        </activity>
     </application>
 
 </manifest>
